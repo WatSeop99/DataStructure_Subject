@@ -37,6 +37,7 @@ bool ItemType::ReadDataFromFile(std::ifstream& fin) {
 	fin >> m_Id >> m_sName >> m_sAddress;
 	if (fin.fail())
 		return false;
+	fin.clear();
 	return true;
 }
 

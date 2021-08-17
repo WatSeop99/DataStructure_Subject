@@ -99,10 +99,9 @@ bool Application::ReadDataFromFile() {
 	std::cin >> fileName;
 	if (!OpenInFile(fileName))
 		return false;
-	while (!m_InFile.eof()) {
-		data.ReadDataFromFile(m_InFile);
+	m_List.MakeEmpty();
+	while (data.ReadDataFromFile(m_InFile))
 		m_List.Add(data);
-	}
 	m_InFile.close();
 	return true;
 }
