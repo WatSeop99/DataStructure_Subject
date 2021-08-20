@@ -28,20 +28,20 @@ FolderType& FolderType::operator=(const FolderType& data) {
 	folName = data.folName;
 	folPath = data.folPath;
 	folCreateTime = data.folCreateTime;
-	if (data.SubFdList != nullptr)
-		*SubFdList = *(data.SubFdList);
+	if (data.subFdList != nullptr)
+		*subFdList = *(data.subFdList);
 	return *this;
 }
 
 bool FolderType::AddSubFolder() {
-	if (SubFdList == nullptr) SubFdList = new SortedList<FolderType>;
+	if (subFdList == nullptr) subFdList = new SortedList<FolderType>;
 	FolderType subfol;
 	subfol.SetRecordFromKB();
 	subfol.SetPath(folPath + '\\' + subfol.folName);
 	subfol.GenCreateTime();
-	if (SubFdList->Add(subfol)) {
+	if (subFdList->Add(subfol)) {
 		std::cout << "\t Add success!" << std::endl;
-		++SubFolderNum;
+		++subFolderNum;
 		return true;
 	}
 	else {
@@ -51,13 +51,13 @@ bool FolderType::AddSubFolder() {
 }
 
 bool FolderType::DeleteSubFolder() {
-	if (SubFdList == nullptr) {
+	if (subFdList == nullptr) {
 		std::cout << "\t There is no list" << std::endl;
 		return false;
 	}
 	FolderType temp;
 	temp.SetRecordFromKB();
-	if (SubFdList->Delete(temp)) {
+	if (subFdList->Delete(temp)) {
 		std::cout << "\t Delete success!" << std::endl;
 		return true;
 	}
@@ -68,13 +68,13 @@ bool FolderType::DeleteSubFolder() {
 }
 
 bool FolderType::RetrieveFolderByName() {
-	if (SubFdList == nullptr) {
+	if (subFdList == nullptr) {
 		std::cout << "\t There is no list" << std::endl;
 		return false;
 	}
 	FolderType temp;
 	temp.SetRecordFromKB();
-	if (SubFdList->Get(temp) != -1) {
+	if (subFdList->Get(temp) != -1) {
 		temp.DisplayFolderInfo();
 		return true;
 	}
@@ -92,14 +92,30 @@ void FolderType::DisplayFolderInfo() {
 	cout << "\t    folder name : " << folName << endl;
 	cout << "\t    folder path : " << folPath << endl;
 	cout << "\t    created time : " << folCreateTime << endl;
-	cout << "\t    subfolder num : " << SubFolderNum << endl;
+	cout << "\t    subfolder num : " << subFolderNum << endl;
 	cout << "\t =================================" << endl << endl;
+}
+
+void FolderType::DisplaySubFolder() {
+	using namespace std;
+
+	cout << "\t ============= SubFolder list =============" << endl;
+	if (subFolderNum == 0) {
+		cout << "\t ## NO FOLDER ##" << endl;
+		return;
+	}
+	FolderType temp;
+	subFdList->ResetList();
+	while (subFdList->GetNextItem(temp) != -1)
+		cout << "\t     " << temp.GetName() << endl;
+	cout << "\t ==========================================" << endl;
 }
 
 FolderType* FolderType::GoToSubFolder() {
 	FolderType sub, *ptr;
 	sub.SetRecordFromKB();
-	SubFdList->ResetList();
-	while (ptr = SubFdList->GetNextItemPtr())
+	subFdList->ResetList();
+	while (ptr = subFdList->GetNextItemPtr())
 		if (*ptr == sub) return ptr;
+	return nullptr;
 }

@@ -13,8 +13,8 @@ public:
 
 	void MakeEmpty();
 	int GetLength() const { return m_Length; }
-	bool IsFull() const { return m_Size == m_Length ? true : false; }
-	bool IsEmpty() const { return m_Legnth == 0 ? true : false; }
+	bool IsFull() const { return m_Size == m_Length; }
+	bool IsEmpty() const { return m_Length == 0; }
 	bool Add(Type& data);
 	void ResetList() { m_CurPointer = -1; }
 	int GetNextItem(Type& data);
@@ -47,7 +47,7 @@ bool SortedList<Type>::Add(Type& data) {
 	if (IsFull()) {
 		m_Size *= 2;
 		Type* tempArr = new Type[m_Size];
-		for (int i = 0; i < m_Legnth; ++i)
+		for (int i = 0; i < m_Length; ++i)
 			tempArr[i] = m_Array[i];
 		delete[] m_Array;
 		m_Array = tempArr;
@@ -58,7 +58,7 @@ bool SortedList<Type>::Add(Type& data) {
 		for (int i = m_Length-1; i > 0; --i) {
 			if (data > m_Array[i]) {
 				m_Array[i+1] = data;
-				moreToSearch - true;
+				moreToSearch = true;
 				break;
 			}
 			m_Array[i+1] = m_Array[i];
@@ -72,7 +72,7 @@ bool SortedList<Type>::Add(Type& data) {
 template <class Type>
 int SortedList<Type>::GetNextItem(Type& data) {
 	if (IsEmpty()) return -1;
-	if (m_CurPointer+1 >= m_Legnth) return -1;
+	if (m_CurPointer+1 >= m_Length) return -1;
 	data = m_Array[++m_CurPointer];
 	return m_CurPointer;
 }
@@ -80,7 +80,7 @@ int SortedList<Type>::GetNextItem(Type& data) {
 template <class Type>
 Type* SortedList<Type>::GetNextItemPtr() {
 	++m_CurPointer;
-	return m_CurPointer < m_Legnth ? &m_Array[m_CurPointer] : nullptr;
+	return m_CurPointer < m_Length ? &m_Array[m_CurPointer] : nullptr;
 }
 
 template <class Type>
@@ -93,7 +93,7 @@ template <class Type>
 bool SortedList<Type>::Delete(Type& data) {
 	int idx = GetByBinarySearch(data);
 	if (idx != -1) {
-		for (int i = idx + 1; i < m_Legnth; ++i)
+		for (int i = idx + 1; i < m_Length; ++i)
 			m_Array[i-1] = m_Array[i];
 		--m_Length;
 		return true;
