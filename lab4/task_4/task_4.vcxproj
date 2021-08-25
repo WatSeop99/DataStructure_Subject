@@ -140,10 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileType.cpp" />
+    <ClCompile Include="FolderType.cpp" />
     <ClCompile Include="task_4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="FileType.h" />
+    <ClInclude Include="FolderType.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="SortedLinkedList.h" />
     <ClInclude Include="Stack.h" />

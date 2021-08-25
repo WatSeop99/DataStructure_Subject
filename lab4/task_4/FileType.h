@@ -15,8 +15,9 @@ private:
 	std::ifstream inFile;
 	std::ofstream outFile;
 public:
+	FileType(std::string _name = "\0", std::string _path = "\0") : fileName(_name), filePath(_path) { GenCreateTime(); }
 	FileType(const FileType& data);
-	~FileType();
+	~FileType() { }
 
 	void SetRecordFromKB();
 	void SetName(std::string _name) { fileName = _name; }
@@ -31,7 +32,7 @@ public:
 	bool operator<(const FileType& data) { return fileName < data.fileName; }
 	bool operator==(const FileType& data) { return fileName == data.fileName; }
 	friend std::ostream& operator<<(std::ostream& os, const FileType& data);
-	bool OpenFile(std::string _file);
-	bool WriteFile(std::string _file, int command);
+	bool OpenFile(std::string file);
+	bool WriteFile(std::string file, int command);
 	void DisplayFileInfo();
 };
