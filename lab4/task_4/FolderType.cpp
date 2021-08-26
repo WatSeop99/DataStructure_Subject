@@ -43,6 +43,7 @@ FolderType& FolderType::operator=(const FolderType& data) {
 	folCreateTime = data.folCreateTime;
 	if (subFolNum != 0) subFolder = data.subFolder;
 	if (subFilNum != 0) subFile = data.subFile;
+	return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const FolderType& data) {
@@ -127,7 +128,7 @@ bool FolderType::RetrieveFolderByName() {
 	}
 	FolderType temp;
 	temp.SetRecordFromKB();
-	if (subFolder->Get(temp) != -1) {
+	if (subFolder->Get(temp)) {
 		temp.DisplayFolderInfo();
 		return true;
 	}
@@ -144,7 +145,7 @@ bool FolderType::RetrieveFileByName() {
 	}
 	FileType temp;
 	temp.SetRecordFromKB();
-	if (subFile->Get(temp) != -1) {
+	if (subFile->Get(temp)) {
 		temp.DisplayFileInfo();
 		return true;
 	}
@@ -158,7 +159,7 @@ void FolderType::DisplayFolderInfo() {
 	using namespace std;
 
 	cout << endl;
-	cout << "\t =======Current Folder Info=======" << endl;
+	cout << "\t ====== Current Folder Info ======" << endl;
 	cout << "\t    folder name : " << folName << endl;
 	cout << "\t    folder path : " << folPath << endl;
 	cout << "\t    created time : " << folCreateTime << endl;
@@ -197,4 +198,18 @@ void FolderType::DisplaySubFile() {
 		std::cout << "\t    " << temp.GetName() << std::endl;
 	}
 	std::cout << "\t ================================" << std::endl;
+}
+
+FolderType* FolderType::GoToSubFolder() {
+	FolderType sub, *ptr;
+	sub.SetRecordFromKB();
+	ptr = subFolder->GetPtr(sub);
+	return ptr;
+}
+
+FileType* FolderType::OpenSubFile() {
+	FileType sub, *ptr;
+	sub.SetRecordFromKB();
+	ptr = subFile->GetPtr(sub);
+	return ptr;
 }

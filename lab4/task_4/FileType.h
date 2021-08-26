@@ -31,6 +31,7 @@ public:
 	bool operator>(const FileType& data) { return fileName > data.fileName; }
 	bool operator<(const FileType& data) { return fileName < data.fileName; }
 	bool operator==(const FileType& data) { return fileName == data.fileName; }
+	bool operator!=(const FileType& data) { return fileName != data.fileName; }
 	friend std::ostream& operator<<(std::ostream& os, const FileType& data);
 	bool OpenFile(std::string file);
 	bool WriteFile(std::string file, int command);

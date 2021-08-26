@@ -30,6 +30,7 @@ public:
 	bool operator>(const FolderType& data) { return folName > data.folName; }
 	bool operator<(const FolderType& data) { return folName < data.folName; }
 	bool operator==(const FolderType& data) { return folName == data.folName; }
+	bool operator!=(const FolderType& data) { return folName != data.folName; }
 	friend std::ostream& operator<<(std::ostream& os, const FolderType& data);
 	bool AddSubFolder();
 	bool AddSubFile();
@@ -40,4 +41,6 @@ public:
 	void DisplayFolderInfo();
 	void DisplaySubFolder();
 	void DisplaySubFile();
+	FolderType* GoToSubFolder();
+	FileType* OpenSubFile();
 };

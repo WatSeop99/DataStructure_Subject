@@ -80,8 +80,9 @@ void FileType::DisplayFileInfo() {
 	using namespace std;
 
 	cout << endl;
-	cout << "\t === Current File Information ===" << endl;
-	cout << "\t    File name : " << fileName << endl;
-	cout << "\t    File path : " << filePath << endl;
-	cout << "\t    CreateTime : " << fileCreateTime << endl << endl;
+	cout << "\t ======= Current File Info =======" << endl;
+	cout << "\t    file name : " << fileName << endl;
+	cout << "\t    file path : " << filePath << endl;
+	cout << "\t    created time : " << fileCreateTime << endl;
+	cout << "\t =================================" << endl << endl;
 }

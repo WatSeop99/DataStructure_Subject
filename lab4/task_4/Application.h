@@ -10,14 +10,14 @@ private:
 	FolderType* curFolder;
 	FileType* curFile;
 	Stack<FolderType*> folderStack;
-	Stack<FolderType*> movdBack;
+	Stack<FolderType*> moveBack;
 	Stack<FolderType*> moveForward;
 	Queue<FolderType*> recentFolder;
 	Queue<FileType*> recentFile;
 	int m_Command;
 public:
 	Application();
-	~Application();
+	~Application() { }
 
 	void Run();
 	int GetCommand();

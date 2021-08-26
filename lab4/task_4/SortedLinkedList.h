@@ -28,7 +28,7 @@ public:
 	bool Add(Type& data);
 	bool Delete(Type& data);
 	bool Replace(Type& data);
-	LinkedList<Type> operator=(const LinkedList<Type>& data)
+	LinkedList<Type> operator=(const LinkedList<Type>& data);
 };
 
 template <class Type>
@@ -56,7 +56,7 @@ bool LinkedList<Type>::IsFull() {
 		delete location;
 		return false;
 	}
-	catch (bad_alloc exception) { return true; }
+	catch (std::bad_alloc exception) { return true; }
 }
 
 template <class Type>
@@ -147,7 +147,7 @@ bool LinkedList<Type>::Add(Type& data) {
 template <class Type>
 bool LinkedList<Type>::Delete(Type& data) {
 	NodeType<Type>* location = m_List;
-	NodeType<Type>* tempLocation = nullptr
+	NodeType<Type>* tempLocation = nullptr;
 	if (data == m_List->data) {
 		tempLocation = location;
 		m_List = m_List->next;
