@@ -14,6 +14,7 @@ private:
 	friend class Iterator<Type, LinkedList<Type>>;
 public:
 	LinkedList();
+	LinkedList(const LinkedList<Type>& list);
 	~LinkedList();
 
 	void MakeEmpty();
@@ -39,6 +40,19 @@ LinkedList<Type>::LinkedList() {
 	m_First->next = m_Last;
 	m_Last->prev = m_First;
 	m_Last->next = nullptr;
+}
+
+template <class Type>
+LinkedList<Type>::LinkedList(const LinkedList<Type>& list) {
+	Type data;
+	Iterator<Type, LinkedList<Type>> iter(list);
+	iter.Next();
+	while (iter.m_CurPointer != list.m_Last) {
+		data = iter.m_CurPointer->data;
+		Add(data);
+		iter.Next();
+	}
+	m_Length = list.m_Length;
 }
 
 template <class Type>
@@ -90,7 +104,6 @@ LinkedList<Type>& LinkedList<Type>::operator=(const LinkedList<Type>& list) {
 		iter.Next();
 	}
 	m_Length = list.m_Length;
-	m_First = m_Last = nullptr;
 	return *this;
 }
 

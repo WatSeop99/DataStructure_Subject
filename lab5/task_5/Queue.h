@@ -13,6 +13,7 @@ private:
 	friend class Iterator<Type, Queue<Type>>;
 public:
 	Queue();
+	Queue(const Queue<Type>& que);
 	~Queue();
 
 	bool IsEmpty() const { return m_Legnth == 0; }
