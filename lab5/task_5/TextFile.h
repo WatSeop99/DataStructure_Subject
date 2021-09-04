@@ -14,5 +14,5 @@ public:
 	void Run(std::string name);
 	int GetCommand();
 	bool ReadText(std::string name);
-	bool WriteText(std::string name);
+	bool WriteText(std::string name, int command);
 };

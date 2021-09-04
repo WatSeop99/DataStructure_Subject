@@ -5,6 +5,9 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include "TextFile.h"
+#include "ImageFile.h"
+#include "MusicFile.h"
 
 class ItemType {
 public:

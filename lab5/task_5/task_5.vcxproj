@@ -140,12 +140,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileType.cpp" />
+    <ClCompile Include="ImageFile.cpp" />
+    <ClCompile Include="MusicFile.cpp" />
     <ClCompile Include="task_5.cpp" />
+    <ClCompile Include="TextFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoublyNodeType.h" />
     <ClInclude Include="ErrorClass.h" />
     <ClInclude Include="FileType.h" />
+    <ClInclude Include="FolderType.h" />
     <ClInclude Include="ImageFile.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="LinkedList.h" />
