@@ -4,13 +4,16 @@
 #include "Iterator.h"
 #include "ErrorClass.h"
 
+template <class Type1, class Type2>
+class Iterator;
+
 template <class Type>
 class Stack {
 private:
 	NodeType<Type>* m_First;
 	NodeType<Type>* m_Last;
 	NodeType<Type>* m_Top;
-	int m_Legnth;
+	int m_Length;
 	friend class Iterator<Type, Stack<Type>>;
 public:
 	Stack();
@@ -41,7 +44,7 @@ Stack<Type>::Stack() {
 
 template <class Type>
 Stack<Type>::~Stack() {
-	if (m_Legnth != 0) MakeEmpty();
+	if (m_Length != 0) MakeEmpty();
 	delete m_First;
 	delete m_Last;
 	m_First = m_Last = nullptr;
@@ -127,7 +130,7 @@ void Stack<Type>::Push(Type& data) {
 template <class Type>
 void Stack<Type>::Pop() {
 	if (IsEmpty()) throw EmptyStack();
-	NodeType<Tyep>* delNode = m_Top;
+	NodeType<Type>* delNode = m_Top;
 	m_Last->prev = delNode->prev;
 	delNode->prev->next = m_Last;
 	m_Top = m_Last->prev;

@@ -1,0 +1,12 @@
+# project file
+*.sln
+
+#debug directory, files
+Debug/
+x64/
+./vs
+
+#project linker files
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user

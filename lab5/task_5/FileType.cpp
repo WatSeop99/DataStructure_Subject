@@ -27,10 +27,10 @@ FileType::FileType(const FileType& data) {
 }
 
 void FileType::SetRecordFromKB() {
-	std::string _name;
-	std::cout << "\t  파일이름을 입력 : ";
-	std::cin >> _name;
-	fileName = _name;
+	std::string name;
+	std::cout << "\t Enter file name : ";
+	std::cin >> name;
+	SetName(name);
 }
 
 void FileType::GenCreateTime() {
@@ -75,9 +75,17 @@ std::ostream& operator<<(std::ostream& os, const FileType& data) {
 
 bool FileType::OpenFile() {
 	if (fileContents == nullptr) return false;
-
+	fileContents->Run(fileName);
+	return true;
 }
 
 void FileType::DisplayFileInfo() {
+	using namespace std;
 
+	cout << endl;
+	cout << "\t ======= Current File Info =======" << endl;
+	cout << "\t    file name : " << fileName << endl;
+	cout << "\t    file path : " << filePath << endl;
+	cout << "\t    created time : " << fileCreateTime << endl;
+	cout << "\t =================================" << endl << endl;
 }

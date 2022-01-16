@@ -4,6 +4,15 @@
 #include "Queue.h"
 #include "Stack.h"
 
+template <class Type>
+class LinkedList;
+
+template <class Type>
+class Stack;
+
+template <class Type>
+class Queue;
+
 template <class Type1, class Type2>
 class Iterator {
 private:

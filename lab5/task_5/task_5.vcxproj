@@ -139,13 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="FileType.cpp" />
+    <ClCompile Include="FolderType.cpp" />
     <ClCompile Include="ImageFile.cpp" />
     <ClCompile Include="MusicFile.cpp" />
     <ClCompile Include="task_5.cpp" />
     <ClCompile Include="TextFile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="DoublyNodeType.h" />
     <ClInclude Include="ErrorClass.h" />
     <ClInclude Include="FileType.h" />

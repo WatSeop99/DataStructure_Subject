@@ -4,6 +4,9 @@
 #include "Iterator.h"
 #include "ErrorClass.h"
 
+template <class Type1, class Type2>
+class Iterator;
+
 template <class Type>
 class Queue {
 private:
@@ -13,13 +16,13 @@ private:
 	friend class Iterator<Type, Queue<Type>>;
 public:
 	Queue();
-	Queue(const Queue<Type>& que);
 	~Queue();
 
-	bool IsEmpty() const { return m_Legnth == 0; }
+	bool IsEmpty() const { return m_Length == 0; }
 	bool IsFull() const;
 	void MakeEmpty();
 	bool Get(Type& data);
+	void Get(Type& data, Type& comp);
 	Type* GetPtr(Type& data);
 	void EnQueue(Type& data);
 	void DeQueue(Type& data);
@@ -86,6 +89,20 @@ bool Queue<Type>::Get(Type& data) {
 }
 
 template <class Type>
+void Queue<Type>::Get(Type& data, Type& comp) {
+	Iterator<Type, Queue<Type>> iter(*this);
+	iter.Next();
+	while (iter.m_CurPointer != m_Last) {
+		if (*iter.m_CurPointer->data == *comp) {
+			data = iter.m_CurPointer->data;
+			return;
+		}
+		iter.Next();
+	}
+	data = nullptr;
+}
+
+template <class Type>
 Type* Queue<Type>::GetPtr(Type& data) {
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.Next();
@@ -101,15 +118,16 @@ void Queue<Type>::EnQueue(Type& data) {
 	if (IsFull()) throw FullQueue();
 	if (Get(data)) return;
 	NodeType<Type>* newNode;
+	Iterator<Type, Queue<Type>> iter(*this);
 	newNode = iter.m_CurPointer;
 	iter.Next();
 	newNode->prev->next = iter.m_CurPointer;
 	iter.m_CurPointer->prev = newNode->prev;
-	newNode >prev = m_Last->prev;
+	newNode->prev = m_Last->prev;
 	newNode->next = m_Last;
 	m_Last->prev->next = newNode;
 	m_Last->prev = newNode;
-	++m_Legnth;
+	++m_Length;
 }
 
 template <class Type>

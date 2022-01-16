@@ -4,6 +4,10 @@
 #include <string>
 #include "DoublyNodeType.h"
 #include "Iterator.h"
+#include "ErrorClass.h"
+
+template <class Type1, class Type2>
+class Iterator;
 
 template <class Type>
 class LinkedList {
@@ -19,8 +23,8 @@ public:
 
 	void MakeEmpty();
 	bool IsFull() const;
-	bool IsEmpty() const { return m_Legnth == 0; }
-	int GetLength() const { return m_Legnth; }
+	bool IsEmpty() const { return m_Length == 0; }
+	int GetLength() const { return m_Length; }
 	LinkedList<Type>& operator=(const LinkedList<Type>& list);
 	bool Add(Type& data);
 	bool Delete(Type& data);
@@ -87,7 +91,7 @@ bool LinkedList<Type>::IsFull() const {
 		return false;
 	}
 	catch (std::bad_alloc& exception) {
-		std::cerr << "\t  ## List가 가득참 : " << exception.what() << " ##" << std::endl;
+		std::cerr << "\t  ## List is full : " << exception.what() << " ##" << std::endl;
 		return true;
 	}
 }
@@ -201,7 +205,7 @@ void LinkedList<Type>::RetrieveAndPrint(std::string key) const {
 		found = true;
 		iter.Next();
 	}
-	if (!found) std::cout << "\t ## 찾지 못함 ##" << std::endl;
+	if (!found) std::cout << "\t ## NOT FOUND ##" << std::endl;
 }
 
 template <class Type>
