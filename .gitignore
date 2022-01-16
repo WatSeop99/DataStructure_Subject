@@ -4,7 +4,7 @@
 #debug directory, files
 Debug/
 x64/
-./vs
+.vs/
 
 #project linker files
 *.vcxproj
