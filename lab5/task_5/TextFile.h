@@ -1,7 +1,7 @@
 #pragma once
 
 #include <fstream>
-#include "FileType.h"
+#include "ItemType.h"
 
 class TextFile : public ItemType {
 private:

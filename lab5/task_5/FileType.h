@@ -9,11 +9,6 @@
 #include "ImageFile.h"
 #include "MusicFile.h"
 
-class ItemType {
-public:
-	virtual void Run(std::string _name) = 0;
-};
-
 class FileType {
 private:
 	std::string fileName;
@@ -37,9 +32,10 @@ public:
 	std::string GetCreateTime() const { return fileCreateTime; }
 	int GetType() const { return fileType; }
 	FileType& operator=(const FileType& data);
-	bool operator>(const FileType& data) { return fileName > data.fileName; }
-	bool operator<(const FileType& data) { return fileName < data.fileName; }
-	bool operator==(const FileType& data) { return fileName == data.fileName; }
+	bool operator>(const FileType& data) { return fileName.compare(data.fileName) > 0; }
+	bool operator<(const FileType& data) { return fileName.compare(data.fileName) < 0;; }
+	bool operator==(const FileType& data) { return (fileName.compare(data.fileName) == 0) && (fileType == data.fileType); }
+	friend bool operator==(const FileType& data1, const FileType& data2);
 	friend std::ostream& operator<<(std::ostream& os, const FileType& data);
 	bool OpenFile();
 	void DisplayFileInfo();

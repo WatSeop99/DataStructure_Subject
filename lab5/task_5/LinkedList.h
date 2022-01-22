@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <string>
 #include "DoublyNodeType.h"
 #include "Iterator.h"
 #include "ErrorClass.h"
@@ -18,7 +17,6 @@ private:
 	friend class Iterator<Type, LinkedList<Type>>;
 public:
 	LinkedList();
-	LinkedList(const LinkedList<Type>& list);
 	~LinkedList();
 
 	void MakeEmpty();
@@ -47,24 +45,12 @@ LinkedList<Type>::LinkedList() {
 }
 
 template <class Type>
-LinkedList<Type>::LinkedList(const LinkedList<Type>& list) {
-	Type data;
-	Iterator<Type, LinkedList<Type>> iter(list);
-	iter.Next();
-	while (iter.m_CurPointer != list.m_Last) {
-		data = iter.m_CurPointer->data;
-		Add(data);
-		iter.Next();
-	}
-	m_Length = list.m_Length;
-}
-
-template <class Type>
 LinkedList<Type>::~LinkedList() {
 	if (m_Length != 0) MakeEmpty();
 	delete m_First;
 	delete m_Last;
-	m_First = m_Last = nullptr;
+	m_First = nullptr;
+	m_Last = nullptr;
 }
 
 template <class Type>
@@ -72,7 +58,7 @@ void LinkedList<Type>::MakeEmpty() {
 	NodeType<Type>* temp;
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.Next();
-	while (iter.m_CurPoineter != m_Last) {
+	while (iter.m_CurPointer != m_Last) {
 		temp = iter.m_CurPointer;
 		iter.Next();
 		delete temp;
@@ -117,7 +103,7 @@ bool LinkedList<Type>::Add(Type& data) {
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.Next();
 	while (true) {
-		if (data > iter.m_CurPointer || iter.m_CurPointer == m_Last) {
+		if (data < iter.m_CurPointer->data || iter.m_CurPointer == m_Last) {
 			NodeType<Type>* newNode = new NodeType<Type>;
 			newNode->data = data;
 			newNode->prev = iter.m_CurPointer->prev;
@@ -130,6 +116,7 @@ bool LinkedList<Type>::Add(Type& data) {
 		iter.Next();
 	}
 	return false;
+	return 0;
 }
 
 template <class Type>
@@ -139,7 +126,8 @@ bool LinkedList<Type>::Delete(Type& data) {
 	iter.Next();
 	while (iter.m_CurPointer != m_Last) {
 		if (iter.m_CurPointer->data == data) {
-			NodeType<Type> delNode = iter.m_CurPointer;
+			NodeType<Type>* delNode = new NodeType<Type>;
+			delNode = iter.m_CurPointer;
 			iter.Next();
 			delNode->prev->next = iter.m_CurPointer;
 			iter.m_CurPointer->prev = delNode->prev;
@@ -184,7 +172,7 @@ bool LinkedList<Type>::Get(Type& data) const {
 
 template <class Type>
 Type* LinkedList<Type>::GetPtr(Type& data) const {
-	if (IsEmpty()) return false;
+	if (IsEmpty()) return nullptr;
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.Next();
 	while (iter.m_CurPointer != m_Last) {

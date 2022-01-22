@@ -289,6 +289,7 @@ void Application::RunRecentFile() {
 }
 
 void Application::GoToSubFolder() {
+	if (curFolder->GetSubFolderNum() == 0) return;
 	std::cout << "\t Please type the name you want to go\n";
 	folderStack.Push(curFolder);
 	moveFor.MakeEmpty();

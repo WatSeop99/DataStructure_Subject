@@ -8,10 +8,10 @@ template <class Type>
 class LinkedList;
 
 template <class Type>
-class Stack;
+class Queue;
 
 template <class Type>
-class Queue;
+class Stack;
 
 template <class Type1, class Type2>
 class Iterator {
@@ -23,15 +23,14 @@ private:
 	friend class Stack<Type1>;
 public:
 	Iterator(const Type2& list) : m_List(list), m_CurPointer(list.m_First) { }
-	~Iterator() { }
 
-	bool NotNull() const { return m_CurPointer == nullptr; }
-	bool NextNotNull() const { return m_CurPointer->next == nullptr; }
-	bool BackNotNull() const { return m_CurPointer->prev == nullptr; }
+	bool NotNull() { return m_CurPointer != nullptr; }
+	bool NextNotNull() { return m_CurPointer->next != nullptr; }
+	bool BackNotNull() { return m_CurPointer->prev != nullptr; }
 	Type1 First();
 	void Next() { if (NextNotNull()) m_CurPointer = m_CurPointer->next; }
 	void Back() { if (BackNotNull()) m_CurPointer = m_CurPointer->prev; }
-	NodeType<Type1> GetCurrentNode() const { if (NotNull()) return *m_CurPointer; }
+	NodeType<Type1> GetCurrentNode() { if (NotNull()) return *m_CurPointer; }
 };
 
 template <class Type1, class Type2>

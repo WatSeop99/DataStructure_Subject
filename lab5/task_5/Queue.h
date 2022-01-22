@@ -79,7 +79,7 @@ bool Queue<Type>::Get(Type& data) {
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.Next();
 	while (iter.m_CurPointer != m_Last) {
-		if (*iter.m_CurPointer->data == data) {
+		if (*iter.m_CurPointer->data == *data) {
 			data = iter.m_CurPointer->data;
 			return true;
 		}
@@ -116,13 +116,8 @@ Type* Queue<Type>::GetPtr(Type& data) {
 template <class Type>
 void Queue<Type>::EnQueue(Type& data) {
 	if (IsFull()) throw FullQueue();
-	if (Get(data)) return;
-	NodeType<Type>* newNode;
-	Iterator<Type, Queue<Type>> iter(*this);
-	newNode = iter.m_CurPointer;
-	iter.Next();
-	newNode->prev->next = iter.m_CurPointer;
-	iter.m_CurPointer->prev = newNode->prev;
+	NodeType<Type>* newNode = new NodeType<Type>;
+	newNode->data = data;
 	newNode->prev = m_Last->prev;
 	newNode->next = m_Last;
 	m_Last->prev->next = newNode;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "FileType.h"
 #include "LinkedList.h"
 
@@ -28,9 +29,9 @@ public:
 	int GetSubFolderNum() const { return subFolderNum; }
 	int GetSubFileNum() const { return subFileNum; }
 	FolderType& operator=(const FolderType& data);
-	bool operator>(const FolderType& data) { return folderName > data.folderName; }
-	bool operator<(const FolderType& data) { return folderName < data.folderName; }
-	bool operator==(const FolderType& data) { return folderName == data.folderName; }
+	bool operator>(const FolderType& data) { return folderName.compare(data.folderName) > 0; }
+	bool operator<(const FolderType& data) { return folderName.compare(data.folderName) < 0;; }
+	bool operator==(const FolderType& data) { return folderName.compare(data.folderName) == 0; }
 	friend std::ostream& operator<<(std::ostream& os, const FolderType& data);
 	bool AddSubFolder();
 	bool AddSubFile();

@@ -1,8 +1,10 @@
+#pragma warning(disable : 4996)
+
 #include "FileType.h"
 
-FileType::FileType(int type = 0) {
-	fileName = "\0";
-	filePath = "\0";
+FileType::FileType(int type) {
+	fileName = "";
+	filePath = "";
 	fileType = type;
 	GenCreateTime();
 	fileContents = nullptr;
@@ -66,6 +68,10 @@ FileType& FileType::operator=(const FileType& data) {
 		break;
 	}
 	return *this;
+}
+
+bool operator==(const FileType& data1, const FileType& data2) {
+	return (data1.fileName.compare(data2.fileName) == 0) && (data1.GetType() == data2.GetType());
 }
 
 std::ostream& operator<<(std::ostream& os, const FileType& data) {

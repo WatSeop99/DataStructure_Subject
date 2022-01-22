@@ -1,9 +1,9 @@
 #pragma once
 
-#include "FileType.h"
 #include <Windows.h>
 #include <gdiplus.h>
 #include <wchar.h>
+#include "ItemType.h"
 using namespace Gdiplus;
 
 #pragma comment(lib, "Gdiplus.lib")

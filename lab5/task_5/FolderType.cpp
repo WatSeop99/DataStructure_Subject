@@ -1,6 +1,8 @@
+#pragma warning(disable : 4996)
+
 #include "FolderType.h"
 
-FolderType::FolderType() : folderName("\0"), folderPath("\0"), subFolder(nullptr), subFile(nullptr), 
+FolderType::FolderType() : folderName(""), folderPath(""), subFolder(nullptr), subFile(nullptr), 
 	subFolderNum(0), subFileNum(0){
 	GenCreateTime();
 }
@@ -47,6 +49,7 @@ FolderType& FolderType::operator=(const FolderType& data) {
 	folderPath = data.folderPath;
 	folderCreateTime = data.folderCreateTime;
 	if (data.subFolderNum != 0) {
+		if (!subFolder) subFolder = new LinkedList<FolderType>;
 		subFolderNum = data.subFolderNum;
 		subFolder = data.subFolder;
 	}
@@ -55,6 +58,7 @@ FolderType& FolderType::operator=(const FolderType& data) {
 		if (subFolder) subFolder->MakeEmpty();
 	}
 	if (data.subFileNum != 0) {
+		if (!subFile) subFile = new LinkedList<FileType>;
 		subFileNum = data.subFileNum;
 		subFile = data.subFile;
 	}
@@ -75,7 +79,7 @@ bool FolderType::AddSubFolder() {
 	FolderType subfol;
 	subfol.SetRecordFromKB();
 	subfol.SetPath(folderPath + '\\' + subfol.folderName);
-	subfol.GenCreateTime();
+	subfol.GetCreateTime();
 	if (subFolder->Add(subfol)) {
 		std::cout << "\t Add success!" << std::endl;
 		++subFolderNum;
@@ -90,8 +94,12 @@ bool FolderType::AddSubFolder() {
 bool FolderType::AddSubFile() {
 	if (!subFile) subFile = new LinkedList<FileType>;
 	FileType subfil;
+	int type;
 	subfil.SetRecordFromKB();
-	subfil.SetPath(subfil.GetPath() + '\\' + subfil.GetName());
+	subfil.SetPath(folderPath + '\\' + subfil.GetName());
+	std::cout << "\t Enter the file type(0. 텍스트, 1. 이미지, 2.음원) : ";
+	std::cin >> type;
+	subfil.SetType(type);
 	if (subFile->Add(subfil)) {
 		std::cout << "\t Add success!" << std::endl;
 		++subFileNum;
@@ -251,9 +259,14 @@ bool FolderType::RetrieveFileByName(FileType*& data) {
 		return false;
 	}
 	FileType temp;
+	int type;
 	std::string name;
 	std::cout << "\t Enter file name : ";
 	std::cin >> name;
+	temp.SetName(name);
+	std::cout << "\t Enter the file type(0. 텍스트, 1. 이미지, 2.음원) : ";
+	std::cin >> type;
+	temp.SetType(type);
 	data = subFile->GetPtr(temp);
 	if (data) {
 		data->DisplayFileInfo();
