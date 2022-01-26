@@ -192,7 +192,50 @@ bool FolderType::retrieveFile(ItemType**& data, std::string key) {
 }
 
 void FolderType::displayInfo() {
+	using namespace std;
 
+	cout << endl;
+	cout << "\t ====== Current Folder Info ======" << endl;
+	cout << "\t    folder name : " << name << endl;
+	cout << "\t    folder path : " << path << endl;
+	cout << "\t    created time : " << createTime << endl;
+	cout << "\t    subitem num : " << listNum << endl;
+	cout << "\t =================================" << endl << endl;
 }
-void FolderType::displaySubfolder();
-void FolderType::displaySubfile();
+
+void FolderType::displaySubfolder() {
+	using namespace std;
+
+	cout << endl;
+	cout << "\t ======== Sub Folder List ========" << endl;
+	if (listNum == 0)
+		cout << "\t    ## NO SUB LIST ## " << endl;
+	else {
+		Iterator<ItemType*, LinkedList<ItemType*>> iter(*subList);
+		iter.next();
+		for (int i = 0; i < listNum; ++i) {
+			if ((*iter.getCurrentNode().data).getType().compare("folder") == 0)
+				cout << "\t      " << iter.getCurrentNode().data->getName() << endl;
+			iter.next();
+		}
+	}
+	cout << "\t =================================" << endl << endl;
+}
+
+void FolderType::displaySubfile() {
+	using namespace std;
+
+	cout << endl;
+	cout << "\t ========= Sub file List =========" << endl;
+	if (listNum == 0)
+		cout << "\t    ## NO SUB LIST ## " << endl;
+	else {
+		Iterator<ItemType*, LinkedList<ItemType*>> iter(*subList);
+		iter.next();
+		for (int i = 0; i < listNum; ++i) {
+			if ((*iter.getCurrentNode().data).getType().compare("file") == 0)
+				cout << "\t      " << iter.getCurrentNode().data->getName() << endl;
+			iter.next();
+		}
+	}
+}

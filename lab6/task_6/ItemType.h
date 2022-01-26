@@ -12,7 +12,6 @@ public:
 	ItemType() : name(""), path(""), createTime(""), type("") {
 		genCreateTime();
 	}
-	~ItemType() { }
 
 	void setRecordFromKB();
 	void setName(std::string _name) { name = _name; }
