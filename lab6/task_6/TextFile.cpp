@@ -7,10 +7,10 @@ void TextFile::run(std::string _name) {
 		command = getCommand();
 		switch (command) {
 		case 1:
-			readText(name);
+			readText(_name);
 			break;
 		case 2: case 3:
-			WriteText(name, command);
+			writeText(_name, command);
 			break;
 		case 4:
 			return;
@@ -21,6 +21,65 @@ void TextFile::run(std::string _name) {
 	}
 }
 
-int getCommend();
-bool openFile(std::string _name);
-bool writeFile(std::string _name, int command);
+int TextFile::getCommand() {
+	using namespace std;
+
+	int command;
+	cout << endl;
+	cout << "\t ========= Text File Menu =========" << endl;
+	cout << "\t    1.  read text file" << endl;
+	cout << "\t    2.  write new text file" << endl;
+	cout << "\t    3.  write existing text file" << endl;
+	cout << "\t    4.  quit" << endl;
+	cout << "\t ==================================" << endl;
+	cout << "\t Choose : ";
+	cin >> command;
+	return command;
+}
+
+bool TextFile::readText(std::string _name) {
+	using namespace std;
+
+	inFile.open(_name + ".txt");
+	if (!inFile) return false;
+	cout << endl;
+	cout << "\t =========== Text File ===========" << endl;
+	string line;
+	while (getline(inFile, line))
+		cout << "\t     " << line << endl;
+	cout << "\t =================================" << endl;
+	cout << endl;
+	inFile.close();
+	return true;
+}
+
+bool TextFile::writeText(std::string _name, int command) {
+	using namespace std;
+
+	if (command == 2) {
+		outFile.open(_name + ".txt");
+		cout << endl;
+		cout << "\t ========= Type the text =========" << endl;
+		cout << "\t     input ('q' is quit) : ";
+		string line;
+		while (getline(cin, line)) {
+			if (line == "q") break;
+			outFile << line << '\n';
+			cout << "\t     ";
+		}
+	}
+	else if (command == 3) {
+		outFile.open(_name + ".txt", ios::app);
+		if (!outFile) return false;
+		cout << "\t ========= Type the text =========" << endl;
+		cout << "\t     input ('q' is quit) : ";
+		string line;
+		while (getline(cin, line)) {
+			if (line == "q") break;
+			outFile << line << '\n';
+			cout << "\t     ";
+		}
+	}
+	outFile.close();
+	return true;
+}
