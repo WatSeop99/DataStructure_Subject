@@ -25,7 +25,7 @@ public:
 	void next() { if (nextNotNull()) curPointer = curPointer->next; }
 	void back() { if (backNotNull()) curPointer = curPointer->prev; }
 	NodeType<Type1> getCurrentNode() { if (notNull()) return *curPointer; }
-private:
+protected:
 	const Type2& list;
 	NodeType<Type1>* curPointer;
 	friend class LinkedList<Type1>;

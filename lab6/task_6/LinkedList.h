@@ -2,6 +2,7 @@
 
 #include "DoublyNodeType.h"
 #include "Iterator.h"
+#include "CompareType.h"
 #include "ErrorClass.h"
 
 template <class Type1, class Type2>
@@ -25,9 +26,10 @@ public:
 	Type* getPtr(Type& data) const;
 	void retrieveAndPrint(std::string key) const;
 	void print() const;
-private:
+protected:
 	NodeType<Type>* first;
 	NodeType<Type>* last;
+	CompareType<Type> comparer;
 	int length;
 	friend class Iterator<Type, LinkedList<Type>>;
 };
@@ -101,7 +103,7 @@ bool LinkedList<Type>::add(Type& data) {
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (true) {
-		if (data < iter.curPointer->data || iter.curPointer == last) {
+		if (comparer.compare(data, iter.curPointer->data) < 0 || iter.curPointer == last) {
 			NodeType<Type>* newNode = new NodeType<Type>;
 			newNode->data = data;
 			newNode->prev = iter.curPointer->prev;
@@ -122,7 +124,7 @@ bool LinkedList<Type>::remove(Type& data) {
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		if (iter.curPointer->data == data) {
+		if (comparer.compare(data, iter.curPointer->data) == 0) {
 			NodeType<Type>* delNode = new NodeType<Type>;
 			delNode = iter.curPointer;
 			iter.next();
@@ -143,7 +145,7 @@ bool LinkedList<Type>::replace(Type& data) {
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		if (iter.curPointer->data == data) {
+		if (comparer.compare(data, iter.curPointer->data) == 0) {
 			iter.curPointer->data = data;
 			return true;
 		}
@@ -154,11 +156,11 @@ bool LinkedList<Type>::replace(Type& data) {
 
 template <class Type>
 bool LinkedList<Type>::get(Type& data) const {
-	if (isEmpty()) throw EmptyList();
+	if (isEmpty()) return false;
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		if (iter.curPointer->data == data) {
+		if (comparer.compare(iter.curPointer->data, data) == 0) {
 			data = iter.curPointer->data;
 			return true;
 		}
@@ -169,11 +171,12 @@ bool LinkedList<Type>::get(Type& data) const {
 
 template <class Type>
 Type* LinkedList<Type>::getPtr(Type& data) const {
-	if (isEmpty()) throw EmptyList();
+	if (isEmpty()) return nullptr;
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		if (iter.curPointer->data == data) return &(iter.curPointer->data);
+		if (comparer.compare(data, iter.curPointer->data) == 0)
+			return &(iter.curPointer->data);
 		iter.next();
 	}
 	return nullptr;
@@ -185,7 +188,7 @@ void LinkedList<Type>::retrieveAndPrint(std::string key) const {
 	bool found = false;
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
-	while (iter.curPointer->data.getName().find(key) != std::string::npos) {
+	while (*(iter.curPointer->data).getName().find(key) != std::string::npos) {
 		std::cout << "\t      " << iter.curPointer->data << std::endl;
 		found = true;
 		iter.next();
@@ -199,7 +202,7 @@ void LinkedList<Type>::print() const {
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		std::cout << "\t      " << iter.curPointer->data << std::endl;
+		std::cout << "\t      " << *(iter.curPointer->data) << std::endl;
 		iter.next();
 	}
 }

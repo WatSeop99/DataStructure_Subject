@@ -53,12 +53,12 @@ ItemType& FileType::operator=(ItemType& data) {
 		contents = new ImageFile;
 		contents = tempPtr->contents;
 		break;
-	case2:
+	case 2:
 		contents = new MusicFile;
 		contents = tempPtr->contents;
 		break;
 	}
-
+	return *this;
 }
 
 void FileType::run() {

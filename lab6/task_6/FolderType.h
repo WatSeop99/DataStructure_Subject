@@ -1,13 +1,10 @@
 #pragma once
 
-#include "ItemType.h"
-#include "LinkedListForItem.h"
 #include "FileType.h"
+#include "LinkedListForItem.h"
 
 template <class Type>
 class LinkedList;
-
-class FileType;
 
 class FolderType : public ItemType {
 public:
@@ -21,8 +18,8 @@ public:
 	bool deleteItem(int select, LinkedList2<ItemType*>& itemBoard);
 	bool copyItem(int select, std::string key, ItemType*& clipBoard);
 	bool pasteItem(int select, ItemType*& clipBoard, LinkedList2<ItemType*>& itemBoard);
-	bool retrieveFolder(ItemType**& data, std::string key);
-	bool retrieveFile(ItemType**& data, std::string key);
+	bool retrieveFolder(ItemType**& data);
+	bool retrieveFile(ItemType**& data);
 	void displayInfo();
 	void displaySubfolder();
 	void displaySubfile();

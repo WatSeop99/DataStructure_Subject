@@ -21,7 +21,7 @@ public:
 	Type* getPtr(Type& data);
 	void enqueue(Type& data);
 	void dequeue(Type& data);
-	void print();
+	void print(std::string type);
 private:
 	NodeType<Type>* first;
 	NodeType<Type>* last;
@@ -68,7 +68,7 @@ void Queue<Type>::makeEmpty() {
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		temp = iter.curPointer;
+		delNode = iter.curPointer;
 		iter.next();
 		delete delNode;
 	}
@@ -113,7 +113,7 @@ Type* Queue<Type>::getPtr(Type& data) {
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		if (*iter.curPointer->data == data) return &(iter.curPointer->data);
+		if (*iter.curPointer->data == *data) return &(iter.curPointer->data);
 		iter.next();
 	}
 	return nullptr;
@@ -144,13 +144,14 @@ void Queue<Type>::dequeue(Type& data) {
 }
 
 template <class Type>
-void Queue<Type>::print() {
+void Queue<Type>::print(std::string type) {
 	if (isEmpty()) throw EmptyQueue();
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.curPointer = last;
 	iter.back();
 	while (iter.curPointer != first) {
-		std::cout << "\t        " << *(iter.curPointer->data) << std::endl;
-		iter.back();
+		if ((*iter.curPointer->data).getType().compare(type) == 0)
+			std::cout << "\t      " << *(iter.curPointer->data) << std::endl;
+		iter.next();
 	}
 }

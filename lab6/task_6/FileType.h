@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ItemType.h"
-#include "ContentsType.h"
 #include "TextFile.h"
 #include "ImageFile.h"
 #include "MusicFile.h"
@@ -13,11 +12,11 @@ public:
 	~FileType() { if (contents) delete contents; }
 
 	void setContentsType(int type);
-	int getCongtentsType() const { return constentsType; }
+	int getCongtentsType() const { return contentsType; }
 	ItemType& operator=(ItemType& data);
 	void run();
 	void displayInfo();
 private:
-	ContenteType* contents;
+	ContentsType* contents;
 	int contentsType;
 };

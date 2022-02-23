@@ -95,7 +95,7 @@ bool Stack<Type>::get(Type& data) {
 
 template <class Type>
 Type* Stack<Type>::getPtr(Type& data) {
-	f(isEmpty()) throw EmptyStack();
+	if(isEmpty()) throw EmptyStack();
 	Iterator<Type, Stack<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {

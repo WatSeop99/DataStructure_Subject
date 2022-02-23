@@ -52,15 +52,21 @@ bool FolderType::addItem(int select, LinkedList2<ItemType*>& itemBoard) {
 		newFolder->setRecordFromKB();
 		newFolder->setPath(path + '\\' + newFolder->getName());
 		if (subList->add(newFolder)) {
+			itemBoard.add(newFolder);
 			++listNum;
 			success = true;
 		}
 	}
 	else if (select == 2) {
 		ItemType* newFile = new FileType;
+		std::string type;
 		newFile->setRecordFromKB();
 		newFile->setPath(path + '\\' + newFile->getName());
+		std::cout << "\t Enter the type you want(text, image, music) : ";
+		std::cin >> type;
+		newFile->setType(type);
 		if (subList->add(newFile)) {
+			itemBoard.add(newFile);
 			++listNum;
 			success = true;
 		}
@@ -81,6 +87,7 @@ bool FolderType::deleteItem(int select, LinkedList2<ItemType*>& itemBoard) {
 		ItemType* delFolder = new FolderType;
 		delFolder->setRecordFromKB();
 		if (subList->remove(delFolder)) {
+			itemBoard.remove(delFolder);
 			--listNum;
 			success = true;
 		}
@@ -89,6 +96,7 @@ bool FolderType::deleteItem(int select, LinkedList2<ItemType*>& itemBoard) {
 		ItemType* delFile = new FileType;
 		delFile->setRecordFromKB();
 		if (subList->remove(delFile)) {
+			itemBoard.remove(delFile);
 			--listNum;
 			success = true;
 		}
@@ -169,22 +177,22 @@ bool FolderType::pasteItem(int select, ItemType*& clipBoard, LinkedList2<ItemTyp
 	return success;
 }
 
-bool FolderType::retrieveFolder(ItemType**& data, std::string key) {
+bool FolderType::retrieveFolder(ItemType**& data) {
 	if (!listNum) return false;
 	ItemType* temp= new FolderType;
+	temp->setRecordFromKB();
 	temp->setType("folder");
-	temp->setName(key);
 	data = subList->getPtr(temp);
 	delete temp;
 	if (data) return true;
 	return false;
 }
 
-bool FolderType::retrieveFile(ItemType**& data, std::string key) {
+bool FolderType::retrieveFile(ItemType**& data) {
 	if (!listNum) return false;
 	ItemType* temp = new FileType;
+	temp->setRecordFromKB();
 	temp->setType("file");
-	temp->setName(key);
 	data = subList->getPtr(temp);
 	delete temp;
 	if (data) return true;

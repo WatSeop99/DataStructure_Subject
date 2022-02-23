@@ -8,7 +8,7 @@ public:
 	using LinkedList<Type>::first;
 	using LinkedList<Type>::last;
 	using LinkedList<Type>::length;
-	using LinkedList<Type>::makeEmpty();
+	using LinkedList<Type>::makeEmpty;
 
 	LinkedList2();
 	~LinkedList2();
@@ -42,10 +42,10 @@ void LinkedList2<Type>::retrAndPrint(std::string type, std::string keyword) {
 	int count = 0;
 	Iterator<Type, LinkedList2<Type>> iter(*this);
 	iter.next();
-	while (iter.curPointer != last) {
+	while (iter.nextNotNull()) {
 		if ((*iter.getCurrentNode().data).getType().compare(type) == 0) {// try optimize plz
 			if ((*iter.getCurrentNode().data).getName().find(keyword) != std::string::npos) {
-				std::cout << "\t      " << iter.getCurrentNode().data << std::endl;
+				std::cout << "\t      " << *iter.getCurrentNode().data << std::endl;
 				++count;
 			}
 		}
