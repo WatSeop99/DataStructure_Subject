@@ -8,6 +8,7 @@ public:
 	using LinkedList<Type>::first;
 	using LinkedList<Type>::last;
 	using LinkedList<Type>::length;
+	using LinkedList<Type>::comparer;
 	using LinkedList<Type>::makeEmpty;
 
 	LinkedList2();
@@ -43,8 +44,8 @@ void LinkedList2<Type>::retrAndPrint(std::string type, std::string keyword) {
 	Iterator<Type, LinkedList2<Type>> iter(*this);
 	iter.next();
 	while (iter.nextNotNull()) {
-		if ((*iter.getCurrentNode().data).getType().compare(type) == 0) {// try optimize plz
-			if ((*iter.getCurrentNode().data).getName().find(keyword) != std::string::npos) {
+		if ((*iter.getCurrentNode().data).getType().compare(type) == 0) {
+			if ((*iter.getCurrentNode().data).getName().compare(keyword) == 0) {
 				std::cout << "\t      " << *iter.getCurrentNode().data << std::endl;
 				++count;
 			}
@@ -60,7 +61,7 @@ void LinkedList2<Type>::print(std::string type) {
 	Iterator<Type, LinkedList2<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
-		if ((**iter.getCurrentNode().data).getType().compare(type) == 0) // try optimize plz
+		if ((**iter.getCurrentNode().data).getType().compare(type) == 0)
 			std::cout << "\t      " << iter.getCurrentNode().data << std::endl;
 		iter.next();
 	}

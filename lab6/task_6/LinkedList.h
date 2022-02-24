@@ -103,7 +103,7 @@ bool LinkedList<Type>::add(Type& data) {
 	Iterator<Type, LinkedList<Type>> iter(*this);
 	iter.next();
 	while (true) {
-		if (comparer.compare(data, iter.curPointer->data) < 0 || iter.curPointer == last) {
+		if (iter.curPointer == last || comparer.compare(data, iter.curPointer->data) < 0) {
 			NodeType<Type>* newNode = new NodeType<Type>;
 			newNode->data = data;
 			newNode->prev = iter.curPointer->prev;

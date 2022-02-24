@@ -79,7 +79,7 @@ void Queue<Type>::makeEmpty() {
 
 template <class Type>
 bool Queue<Type>::get(Type& data) {
-	if (isEmpty()) throw EmptyQueue();
+	if (isEmpty()) return false;
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
@@ -94,7 +94,10 @@ bool Queue<Type>::get(Type& data) {
 
 template <class Type>
 void Queue<Type>::get(Type& data, Type& comp) {
-	if (isEmpty()) throw EmptyQueue();
+	if (isEmpty()) {
+		data = nullptr;
+		return;
+	}
 	Iterator<Type, Queue<Type>> iter(*this);
 	iter.next();
 	while (iter.curPointer != last) {
@@ -121,7 +124,10 @@ Type* Queue<Type>::getPtr(Type& data) {
 
 template <class Type>
 void Queue<Type>::enqueue(Type& data) {
-	if (isFull()) throw FullQueue();
+	if (isFull()) {
+		throw FullQueue();
+		return;
+	}
 	NodeType<Type>* newNode = new NodeType<Type>;
 	newNode->data = data;
 	newNode->prev = last->prev;
@@ -133,7 +139,10 @@ void Queue<Type>::enqueue(Type& data) {
 
 template <class Type>
 void Queue<Type>::dequeue(Type& data) {
-	if (isEmpty()) throw EmptyQueue();
+	if (isEmpty()) {
+		throw EmptyQueue();
+		return;
+	}
 	NodeType<Type>* delNode;
 	delNode = first->next;
 	data = delNode->data;
