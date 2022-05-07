@@ -1,29 +1,28 @@
 #pragma once
 
 #include "DoublyNodeType.h"
-#include "ErrorClass.h"
 #include "Queue.h"
 #include "CompareType.h"
 
 template <class Type>
 class BinarySearchTree {
 public:
-	BinarySearchTree() { root = nullptr; }
+	BinarySearchTree() : root(nullptr) { }
 	~BinarySearchTree();
 
 	bool isEmpty() const { return root == nullptr; }
 	bool isFull() const;
 	void makeEmpty() { makeEmptyTree(root); }
-	int getLength() { return CountNode(root); }
+	int getLength() { return countNode(root); }
 	BinarySearchTree<Type>& operator=(BinarySearchTree<Type>& tree);
 	bool addData(Type& data);
 	bool removeData(Type& data);
-	void retrieveData(Type& data, bool& found) const { retrieve(rot, data, found); }
+	void retrieveData(Type& data, bool& found) const { retrieveNode(root, data, found); }
 	bool get(Type& data);
 	Type* getPtr(Type& data);
-	Type getNextItem(bool& finished);
-	void print(std::string& type) const { printinOrderTraversal(root, type); }
 	void resetTree();
+	Type getNextItem(bool& finished);
+	void print(std::string type) const { printInOrderTraversal(root, type); }
 private:
 	NodeType<Type>* root;
 	Queue<Type> inQue;
@@ -31,21 +30,19 @@ private:
 
 template <class Type>
 BinarySearchTree<Type>::~BinarySearchTree() {
-	if (root)
-		makeEmpty();
-	if (!inQue.makeEmpty())
-		inQue.makeEmpty();
+	if (root) makeEmpty();
+	if (~inQue.isEmpty()) inQue.makeEmpty();
 }
 
 template <class Type>
 bool BinarySearchTree<Type>::isFull() const {
-	NodeType<Type>* newNode;
+	NodeType<Type>* node;
 	try {
-		newNode = new NodeType<Type>;
-		delete newNode;
+		node = new NodeType<Type>;
+		delete node;
 		return false;
 	}
-	catch (std::bad_alloc exception) {
+	catch (std::bad_alloc& exception) {
 		return true;
 	}
 }
@@ -58,8 +55,7 @@ BinarySearchTree<Type>& BinarySearchTree<Type>::operator=(BinarySearchTree<Type>
 
 template <class Type>
 bool BinarySearchTree<Type>::addData(Type& data) {
-	if (isFull()) return false;
-	if (get(data)) return false;
+	if (isFull() || get(data)) return false;
 	insertNode(root, data);
 	root = balance(root);
 	return true;
@@ -78,30 +74,36 @@ bool BinarySearchTree<Type>::get(Type& data) {
 	if (isEmpty()) return false;
 	bool found = false;
 	retrieve(data, found);
-	if (!found) return false;
-	return true;
+	return found;
 }
 
 template <class Type>
 Type* BinarySearchTree<Type>::getPtr(Type& data) {
 	if (isEmpty()) return nullptr;
-	NodeType<Type>* found = root;
+	NodeType<Type>* node = root;
 	CompareType<Type> comparer;
 	while (true) {
-		if (!found) return nullptr;
-		int result = comparer.compare(data, found->data);
-		switch (result) {
+		if (!node) return nullptr;
+		int comp = comparer.compare(data, node->data);
+		switch (comp) {
 		case -1:
-			found = found->left;
+			node = node->left;
 			break;
 		case 1:
-			found = found->right;
+			node = node->right;
 			break;
 		case 0:
-			return &(found->data);
+			return &(node->data);
 		}
 	}
 	return nullptr;
+}
+
+template <class Type>
+void BinarySearchTree<Type>::resetTree() {
+	if (!inQue.isEmpty())
+		inQue.makeEmpty();
+	inOrder(root, inQue);
 }
 
 template <class Type>
@@ -113,14 +115,7 @@ Type BinarySearchTree<Type>::getNextItem(bool& finished) {
 	return data;
 }
 
-template <class Type>
-void BinarySearchTree<Type>::resetTree() {
-	if (!inQue.isEmpty())
-		inQue.makeEmpty();
-	inOrder(root, inQue);
-}
-
-// operation function for BST
+// Operation Functions for BST
 
 template <class Type>
 void makeEmptyTree(NodeType<Type>*& rootNode) {
@@ -138,7 +133,7 @@ int countNode(NodeType<Type>*& rootNode) {
 }
 
 template <class Type>
-void copyTree(NodeType<Type>*& copy, NodeType<Type>* original) {
+void copyTree(NodeType<Type>*& copy, NodeType<Type>*& original) {
 	if (!original) copy = nullptr;
 	else {
 		copy = new NodeType<Type>;
@@ -158,8 +153,8 @@ void insertNode(NodeType<Type>*& rootNode, Type& data) {
 		return;
 	}
 	CompareType<Type> comparer;
-	int result = comparer.compare(root->data, data);
-	switch (result) {
+	int comp = comparer.compare(rootNode->data, data);
+	switch (comp) {
 	case 1:
 		insertNode(rootNode->left, data);
 		rootNode->left = balance(rootNode->left);
@@ -180,8 +175,7 @@ void getPredecessor(NodeType<Type>* rootNode, Type& data) {
 
 template <class Type>
 void removeNode(NodeType<Type>*& rootNode) {
-	NodeType<Type>* delNode;
-	delNode = rootNode;
+	NodeType<Type>* delNode = rootNode;
 	if (!rootNode->left) {
 		rootNode = rootNode->right;
 		delete delNode;
@@ -201,8 +195,8 @@ void removeNode(NodeType<Type>*& rootNode) {
 template <class Type>
 void remove(NodeType<Type>*& rootNode, Type& data) {
 	CompareType<Type> comparer;
-	int result = comparer.compare(data, rootNode->data);
-	switch (result) {
+	int comp = comparer.compare(data, rootNode->data);
+	switch (comp) {
 	case -1:
 		remove(rootNode->left, data);
 		break;
@@ -217,27 +211,27 @@ void remove(NodeType<Type>*& rootNode, Type& data) {
 
 template <class Type>
 void inOrder(NodeType<Type>* rootNode, Queue<Type>& que) {
-	if (root) {
-		inOder(rootNode->left, que);
+	if (rootNode) {
+		inOrder(rootNode->left, que);
 		que.enqueue(rootNode->data);
 		inOrder(rootNode->right, que);
 	}
 }
 
 template <class Type>
-void retrieve(NodeType<Type>* rootNode, Type& data, bool& found) {
+void retrieveNode(NodeType<Type>* rootNode, Type& data, bool& found) {
 	if (!rootNode) {
 		found = false;
 		return;
 	}
 	CompareType<Type> comparer;
-	int result = comparer.compare(data, rootNode->data);
-	switch (result) {
+	int comp = comparer.compare(data, rootNode->data);
+	switch (comp) {
 	case -1:
-		retrieve(rootNode->left, data, found);
+		retrieveNode(rootNode->left, data, found);
 		break;
 	case 1:
-		retrieve(rootNode->right, data, found);
+		retrieveNode(rootNode->right, data, found);
 		break;
 	case 0:
 		data = rootNode->data;
@@ -251,12 +245,12 @@ void printInOrderTraversal(NodeType<Type>* rootNode, std::string type) {
 	if (rootNode) {
 		printInOrderTraversal(rootNode->left, type);
 		if ((*rootNode->data).getType().compare(type) == 0)
-			cout << "\t        " << *root->data << endl;
+			cout << "\t        " << *rootNode->data << endl;
 		printInOrderTraversal(rootNode->right, type);
 	}
 }
 
-// balancing functions
+// Balancing Functions
 
 template <class Type>
 int difference(NodeType<Type>* rootNode) {
@@ -268,8 +262,10 @@ template <class Type>
 int height(NodeType<Type>* rootNode) {
 	if (!rootNode) return 0;
 	int heightLeft = height(rootNode->left), heightRight = height(rootNode->right);
-	if (heightLeft > heightRight) return heightLeft + 1;
-	else return heightRight + 1;
+	if (heightLeft > heightRight)
+		return heightLeft + 1;
+	else
+		return heightRight + 1;
 }
 
 template <class Type>

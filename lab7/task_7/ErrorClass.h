@@ -4,22 +4,6 @@
 #include <exception>
 #include <string>
 
-class EmptyList : public std::exception {
-private:
-	std::string message;
-public:
-	EmptyList() : message("\t  ## List is Empty ##\n") { }
-	virtual const char* what() const throw() { return message.c_str(); }
-};
-
-class FullList : public std::exception {
-private:
-	std::string message;
-public:
-	FullList() : message("\t  ## List is Full ##\n") { }
-	virtual const char* what() const throw() { return message.c_str(); }
-};
-
 class EmptyQueue : public std::exception {
 private:
 	std::string message;

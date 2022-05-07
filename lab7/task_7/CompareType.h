@@ -21,3 +21,4 @@ int CompareType<Type>::compare(Type& data1, Type& data2) const {
 		else if (*data1 == *data2) return 0;
 	}
 	return 1;
+}
