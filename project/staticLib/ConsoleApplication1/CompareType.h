@@ -26,22 +26,20 @@ template <typename T>
 class CompareType
 {
 public:
-	CompareType(compare::eKeyValue key = compare::eKeyValue::Name,
-		compare::eSortVer sort = compare::eSortVer::Asending)
-		:mKey(key),
-		mSortType(sort)
+	CompareType(compare::eSortVer sort = compare::eSortVer::Asending)
+		: mSortType(sort)
 	{}
 
-	int Compare(const T& data1, const T& data2) const;
-	compare::eKeyValue GetKey() const;
-	void SetKey(compare::eKeyValue key);
+	int Compare(T& data1, T& data2) const;
+	compare::eSortVer GetSortType() const;
+	void SetSortType(compare::eSortVer sort);
 
 private:
 	compare::eSortVer mSortType;
 };
 
 template <typename T>
-int CompareType<T>::Compare(const T& data1, const T& data2) const
+int CompareType<T>::Compare(T& data1, T& data2) const
 {
 	switch (mSortType)
 	{
@@ -75,19 +73,19 @@ int CompareType<T>::Compare(const T& data1, const T& data2) const
 	default:
 		break;
 	}
-	
+
 
 	return INF;
 }
 
 template <typename T>
-compare::eKeyValue CompareType<T>::GetKey() const
+compare::eSortVer CompareType<T>::GetSortType() const
 {
-	return mKey;
+	return mSortType;
 }
 
 template <typename T>
-void CompareType<T>::SetKey(compare::eKeyValue key)
+void CompareType<T>::SetSortType(compare::eSortVer sort)
 {
-	mKey = key;
+	mSortType = sort;
 }

@@ -19,7 +19,7 @@ public:
 	bool Delete(Item& data, Item::eItemType type);
 	int GetLength() const;
 	void PathUpdate(Folder* folder, std::string path);
-	bool Paste(Item& data, Item::eItemType select);
+	bool Paste(Item* data, Item::eItemType select);
 	bool RetrieveAll(Item* outData, Item& comp);
 	bool RetrieveFile(Item* outData, std::string name);
 	bool RetrieveFolder(Item* outData, std::string name);

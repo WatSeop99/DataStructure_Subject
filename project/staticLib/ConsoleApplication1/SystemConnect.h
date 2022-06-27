@@ -9,7 +9,7 @@
 
 class Folder;
 
-namespace system
+namespace systemfunc
 {
 	bool CopyDirFromPath(std::string folderName,
 		std::string oldPath, std::string newPath);

@@ -14,22 +14,27 @@ Application::~Application()
 
 bool Application::AddItemFromWindow(const char* name, Item::eItemType type, void* param)
 {
+	Item* item;
 	bool success = false;
+
 	switch (type)
 	{
 	case Item::eItemType::Directory:
-		Item* item = new Folder;
+	{
+		item = new Folder;
 		item->SetName(name);
 		item->SetPath(mCurFolder->GetPath() + '\\' + name);
-		
+
 		if (mCurFolder->Add(*item, type))
 		{
 			success = true;
 		}
 		delete item;
 		break;
+	}
 	case Item::eItemType::File:
-		Item* item = new File;
+	{
+		item = new File;
 		item->SetName(name);
 
 		File* newFile = dynamic_cast<File*>(item);
@@ -52,6 +57,7 @@ bool Application::AddItemFromWindow(const char* name, Item::eItemType type, void
 		}
 		delete item;
 		break;
+	}
 	default:
 		break;
 	}
@@ -80,7 +86,7 @@ bool Application::ChangeFolNameFromWindow(const char* oldName, const char* newNa
 
 		newPath = oldPath.substr(0, end) + newName;
 		(**data).SetName(newName);
-		system::RenameDirectory(oldPath, newPath);
+		systemfunc::RenameDirectory(oldPath, newPath);
 		success = true;
 	}
 
@@ -109,7 +115,7 @@ bool Application::ChangeFilNameFromWindow(const char* oldName, const char* newNa
 
 		newPath = oldPath.substr(0, end) + newName;
 		(**data).SetName(newName);
-		system::RenameDirectory(oldPath, newPath);
+		systemfunc::RenameDirectory(oldPath, newPath);
 		success = true;
 	}
 
@@ -119,14 +125,14 @@ bool Application::ChangeFilNameFromWindow(const char* oldName, const char* newNa
 
 bool Application::DeleteItemFromWindow(const char* name, Item::eItemType type)
 {
+	Item** data;
+	Item* comp;
+	Folder* temp;
 	bool success = false;
+
 	switch (type)
 	{
 	case Item::eItemType::Directory:
-		Item** data;
-		Item* comp;
-		Folder* temp;
-
 		data = nullptr;
 		comp = new Folder;
 		temp = mCurFolder;
@@ -146,10 +152,6 @@ bool Application::DeleteItemFromWindow(const char* name, Item::eItemType type)
 		delete comp;
 		break;
 	case Item::eItemType::File:
-		Item** data;
-		Item* comp;
-		Folder* temp;
-
 		data = nullptr;
 		comp = new File;
 		temp = mCurFolder;
@@ -207,7 +209,7 @@ File* Application::RetrieveFileFromWindow(const char* name)
 	Item** data;
 	Item* comp;
 	File* returnPtr;
-	
+
 	data = nullptr;
 	comp = new File;
 	returnPtr = nullptr;

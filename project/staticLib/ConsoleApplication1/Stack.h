@@ -148,7 +148,7 @@ template <typename T>
 void Stack<T>::MakeEmpty()
 {
 	Node<T>* trashNode;
-	Iterator<T, Queue<T>> iter(*this);
+	Iterator<T, Stack<T>> iter(*this);
 	iter.Next();
 
 	while (iter.mCurPointer != mLast)
@@ -160,7 +160,7 @@ void Stack<T>::MakeEmpty()
 
 	mFirst->Right = mLast;
 	mLast->Left = mFirst;
-	mLegnth = 0;
+	mLength = 0;
 }
 
 

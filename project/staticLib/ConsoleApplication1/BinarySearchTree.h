@@ -18,27 +18,27 @@ public:
 	bool Add(T* data);
 	bool Get(T& outData) const;
 	int GetLength() const;
-	T GetNextItem(bool& finished) const;
+	T GetNextItem(bool& finished);
 	void GetPtr(T* outData, T& comp) const;
 	bool IsEmpty() const;
 	bool IsFull() const;
 	void MakeEmpty();
 	bool Remove(T data);
 	void ResetTree();
-	void Retrieve(T& comp, bool& found) const;
+	void Retrieve(T* outComp, bool& found) const;
 
 	BinarySearchTree<T>& operator=(BinarySearchTree<T>& tree);
 
 protected:
 	void CopyTree(Node<T>* outCopy, Node<T>* originalTree);
-	int CountNode(Node<T>* root);
+	int CountNode(Node<T>* root) const;
 	void Delete(Node<T>* root, T& comp);
 	void DeleteNode(Node<T>* root);
 	void GetPredecessor(Node<T>* root, T* outData);
 	void InOrder(Node<T>* root, Queue<T>& inQue);
 	void InsertNode(Node<T>* root, T& data);
 	void MakeEmptyTree(Node<T>* root);
-	void RetrieveNode(Node<T>* root, T* outData, bool& found);
+	void RetrieveNode(Node<T>* root, T* outData, bool& found) const;
 
 	Node<T>* Balance(Node<T>* root);
 	int Difference(Node<T>* root);
@@ -98,7 +98,7 @@ bool BinarySearchTree<T>::Get(T& outData) const
 
 	bool found;
 	found = false;
-	Retrieve(outData, found);
+	Retrieve(&outData, found);
 
 	return found;
 }
@@ -110,7 +110,7 @@ int BinarySearchTree<T>::GetLength() const
 }
 
 template <typename T>
-T BinarySearchTree<T>::GetNextItem(bool& finished) const
+T BinarySearchTree<T>::GetNextItem(bool& finished)
 {
 	T data;
 	finished = false;
@@ -147,7 +147,7 @@ void BinarySearchTree<T>::GetPtr(T* outData, T& comp) const
 		}
 
 		int result;
-		result = comparer.Compare(comp, here->data);
+		result = comparer.Compare(comp, here->Data);
 		switch (result)
 		{
 		case -1:
@@ -224,7 +224,7 @@ void BinarySearchTree<T>::ResetTree()
 }
 
 template <typename T>
-void BinarySearchTree<T>::Retrieve(T& outComp, bool& found) const
+void BinarySearchTree<T>::Retrieve(T* outComp, bool& found) const
 {
 	RetrieveNode(mRoot, outComp, found);
 }
@@ -257,7 +257,7 @@ void BinarySearchTree<T>::CopyTree(Node<T>* outCopy, Node<T>* originalTree)
 }
 
 template <typename T>
-int BinarySearchTree<T>::CountNode(Node<T>* root)
+int BinarySearchTree<T>::CountNode(Node<T>* root) const
 {
 	if (root != nullptr)
 	{
@@ -312,7 +312,7 @@ void BinarySearchTree<T>::DeleteNode(Node<T>* root)
 		GetPredecessor(root->Left, tempData);
 		root->Data = *tempData;
 
-		Delete(root->Left, tempData);
+		Delete(root->Left, *tempData);
 	}
 }
 
@@ -381,7 +381,7 @@ void BinarySearchTree<T>::MakeEmptyTree(Node<T>* root)
 }
 
 template <typename T>
-void BinarySearchTree<T>::RetrieveNode(Node<T>* root, T* outData, bool& found)
+void BinarySearchTree<T>::RetrieveNode(Node<T>* root, T* outData, bool& found) const
 {
 	if (root == nullptr)
 	{
@@ -393,7 +393,7 @@ void BinarySearchTree<T>::RetrieveNode(Node<T>* root, T* outData, bool& found)
 	CompareType<T> comparer;
 	int result;
 
-	result = comparer.Compare(*outData, root->data);
+	result = comparer.Compare(*outData, root->Data);
 	switch (result)
 	{
 	case -1:

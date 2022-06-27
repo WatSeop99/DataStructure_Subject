@@ -47,6 +47,7 @@ void File::GetContents(Contents::eContentsType type, void* outParam) const
 	switch (type)
 	{
 	case Contents::eContentsType::Image:
+	{
 		ImageFile* image = dynamic_cast<ImageFile*>(mContents);
 
 		if (((struct Parameter*)outParam)->Event != nullptr)
@@ -60,7 +61,9 @@ void File::GetContents(Contents::eContentsType type, void* outParam) const
 			image->GetEvent().length() + 1,
 			image->GetEvent().c_str());
 		break;
+	}
 	case Contents::eContentsType::Music:
+	{
 		MusicFile* music = dynamic_cast<MusicFile*>(mContents);
 
 		if (((struct Parameter*)outParam)->Album != nullptr)
@@ -92,6 +95,7 @@ void File::GetContents(Contents::eContentsType type, void* outParam) const
 			music->GetLyrics().length() + 1,
 			music->GetLyrics().c_str());
 		break;
+	}
 	default:
 		break;
 	}
@@ -107,6 +111,7 @@ void File::SetContents(Contents::eContentsType type, void* param)
 	switch (type)
 	{
 	case Contents::eContentsType::Image:
+	{
 		ImageFile* image = dynamic_cast<ImageFile*>(mContents);
 
 		if (((struct Parameter*)param)->Event != nullptr)
@@ -114,7 +119,9 @@ void File::SetContents(Contents::eContentsType type, void* param)
 			image->SetEvent((std::string)((struct Parameter*)param)->Event);
 		}
 		break;
+	}
 	case Contents::eContentsType::Music:
+	{
 		MusicFile* music = dynamic_cast<MusicFile*>(mContents);
 
 		music->SetTitle(GetName());
@@ -131,6 +138,7 @@ void File::SetContents(Contents::eContentsType type, void* param)
 			music->SetLyrics((std::string)((struct Parameter*)param)->Lyrics);
 		}
 		break;
+	}
 	default:
 		break;
 	}
@@ -167,7 +175,7 @@ Item& File::operator=(Item& data)
 	mCreationTime = input->mCreationTime;
 	mModifiedTime = GenTime();
 	mType = input->mType;
-	
+
 	if (mContents != nullptr)
 	{
 		delete mContents;
@@ -198,7 +206,7 @@ Item& File::operator=(Item& data)
 
 	input->GetContents(mContentsType, (void*)(&param));
 	SetContents(mContentsType, (void*)(&param));
-	
+
 	switch (mContentsType)
 	{
 	case Contents::eContentsType::Image:
